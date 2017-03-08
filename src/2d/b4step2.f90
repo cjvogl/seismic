@@ -3,7 +3,7 @@ subroutine b4step2(mbc,mx,my,meqn,q,xlower,ylower,dx,dy,t,dt,maux,aux)
 
 !   set slip before call to step2
 
-    use fault_module, only: center, xcb, nsubfaults, subfaults
+    use fault_module, only: center, xcb, nsubfaults, longitude, width, rupture_time, rise_time, slip
     use fault_module, only: nevents, event_times, LAT2METER
 
     implicit none
@@ -27,11 +27,11 @@ subroutine b4step2(mbc,mx,my,meqn,q,xlower,ylower,dx,dy,t,dt,maux,aux)
             if (xcb(1) <= xcell - 0.5d0*dx .and. xcell + 0.5d0*dx <= xcb(2)) then
 
               do k=1,nsubfaults
-                if (subfaults(k)%longitude*LAT2METER <= xcell .and. &
-                    xcell <= subfaults(k)%longitude*LAT2METER + subfaults(k)%width .and. &
-                    subfaults(k)%rupture_time <= t .and. &
-                    t <= subfaults(k)%rupture_time + subfaults(k)%rise_time) then
-                  aux(13,i,j) = subfaults(k)%slip/subfaults(k)%rise_time
+                if (longitude(k)*LAT2METER <= xcell .and. &
+                    xcell <= longitude(k)*LAT2METER + width(k) .and. &
+                    rupture_time(k) <= t .and. &
+                    t <= rupture_time(k) + rise_time(k)) then
+                  aux(13,i,j) = slip(k)/rise_time(k)
                   exit
                 end if
               end do

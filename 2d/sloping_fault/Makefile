@@ -68,3 +68,8 @@ SOURCES = \
 #-------------------------------------------------------------------
 # Include Makefile containing standard definitions and make options:
 include $(CLAWMAKE)
+
+sloping_fault.so: setaux.f90 mapc2p.f90 ../../src/2d/fault_module_no_types.f90 ../../src/2d/b4step2.f90
+	f2py -c setaux.f90 mapc2p.f90 ../../src/2d/fault_module_no_types.f90 ../../src/2d/b4step2.f90 ${CLAW}/amrclaw/src/2d/opendatafile.f -m sloping_fault
+
+
