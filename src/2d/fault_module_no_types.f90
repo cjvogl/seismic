@@ -1,31 +1,25 @@
 module fault_module
 
     implicit none
+
     real(kind=8), parameter :: LAT2METER = 111133.84012073893 ! from clawpack.geoclaw.data
-    integer :: nsubfaults, nevents
-    real(kind=8), allocatable :: width(:), depth(:), slip(:), longitude(:), rupture_time(:), rise_time(:)
-    real(kind=8), allocatable :: event_times(:)
+    integer, parameter :: nsubfaults = 1
+    integer :: nevents
+    real(kind=8) :: width(nsubfaults), depth(nsubfaults), slip(nsubfaults), longitude(nsubfaults), rupture_time(nsubfaults)
+    real(kind=8) :: rise_time(nsubfaults), event_times(2*nsubfaults)
     real(kind=8) :: center(2), theta, xcb(2)
 
 contains
 
-    subroutine load_fault(fname, nsubfaults)
+    subroutine load_fault(fname)
 
         implicit none
 
         character*12, intent(in) :: fname
-        integer, intent(in) :: nsubfaults
 
         integer :: i, j, k
         real(kind=8) :: input_line(12), xp1, yp1, xp2, yp2, total_width, swap
 
-        allocate(width(nsubfaults))
-        allocate(depth(nsubfaults))
-        allocate(slip(nsubfaults))
-        allocate(longitude(nsubfaults))
-        allocate(rupture_time(nsubfaults))
-        allocate(rise_time(nsubfaults))
-        allocate(event_times(2*nsubfaults))
 
         call opendatafile(7, fname)
 
