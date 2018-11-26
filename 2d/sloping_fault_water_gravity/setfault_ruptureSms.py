@@ -12,15 +12,16 @@ fault_top_center = [-100000.0,-20000.0]
 slip = 1.0
 mu = 3e10
 initial_rupture_time = 0.0
-rupture_velocity = sqrt(9.8*4500.0)/cos(theta)
+rise_time = 10.0
+rupture_velocity = 10.0*sqrt(9.8*4500.0)/cos(theta)
 nsubfaults = 100
 
 longitude0 = fault_top_center[0]/LAT2METER
 dlongitude = width*cos(theta)/LAT2METER / nsubfaults
 ddepth = width*sin(theta) / nsubfaults
 subfault_width = width/nsubfaults
-rise_time = subfault_width/rupture_velocity
 
+rupture_time = initial_rupture_time
 for i in range(nsubfaults):
     subfault = dtopotools.SubFault()
     subfault.mu = mu
@@ -34,8 +35,9 @@ for i in range(nsubfaults):
     subfault.longitude = longitude0 + dlongitude*i
     subfault.latitude = 0.
     subfault.coordinate_specification = 'top center'
-    subfault.rupture_time = rise_time*i
+    subfault.rupture_time = rupture_time
     subfault.rise_time = rise_time
+    rupture_time += subfault_width/rupture_velocity
 
     fault.subfaults.append(subfault)
 
