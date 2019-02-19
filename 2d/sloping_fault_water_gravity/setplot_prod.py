@@ -133,13 +133,12 @@ def setplot(plotdata):
         plot_interfaces(current_data)
         ax = gca()
         ax.set_xlabel('m',fontsize=18)
-        ax.set_ylabel('slip-direction velocity',fontsize=14)
+        ax.set_ylabel('slip-direction velocity',fontsize=18)
         f = gcf()
-        f.tight_layout()
 
     # Figure
     plotfigure = plotdata.new_plotfigure(name='results', figno=1)
-    plotfigure.kwargs = {'figsize':(8,12)}
+    plotfigure.kwargs = {'figsize':(8,12), 'tight_layout': True}
 
     # Set axes for seasurface:
     plotaxes = plotfigure.new_plotaxes()
