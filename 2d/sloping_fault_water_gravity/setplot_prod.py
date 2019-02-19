@@ -129,12 +129,11 @@ def setplot(plotdata):
         return u*tau_x + v*tau_y
 
     def after_downdip_velocity(current_data):
-        from pylab import gca, gcf
+        from pylab import gca
         plot_interfaces(current_data)
         ax = gca()
         ax.set_xlabel('m',fontsize=18)
         ax.set_ylabel('slip-direction velocity',fontsize=18)
-        f = gcf()
 
     # Figure
     plotfigure = plotdata.new_plotfigure(name='results', figno=1)
